@@ -1,0 +1,65 @@
+# ── Python ──────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# ── Node / Frontend ──────────────────────────────────────────────────
+frontend-app/node_modules/
+frontend-app/dist/
+frontend-app/.vite/
+*.local
+
+# ── Environment / Secrets ────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+*.secret
+
+# ── IDE / Editor ─────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Logs ─────────────────────────────────────────────────────────────
+logs/
+*.log
+*.log.*
+
+# ── Test / Coverage ──────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# ── Uploads (runtime) ────────────────────────────────────────────────
+/tmp/ft_mixer_uploads/
+
+# ── MkDocs build ─────────────────────────────────────────────────────
+site/

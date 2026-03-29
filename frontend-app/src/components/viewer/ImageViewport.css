@@ -1,0 +1,194 @@
+/* ══════════════════════════════════════════════
+   IMAGE VIEWPORT — Cassette/VHS tape bay slot
+══════════════════════════════════════════════ */
+.image-viewport {
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(170deg, rgba(20,0,48,0.9) 0%, rgba(7,0,15,0.95) 100%);
+  border: 1px solid rgba(191,0,255,0.22);
+  border-radius: var(--r2);
+  overflow: hidden;
+  position: relative;
+  min-height: 0;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+/* Corner tick marks — hardware panel style */
+.image-viewport::before {
+  content: '';
+  position: absolute;
+  inset: 0; z-index: 4;
+  border-radius: var(--r2);
+  pointer-events: none;
+  background:
+    /* top-left corner */
+    linear-gradient(to right,  var(--vp-color, rgba(191,0,255,0.4)) 0, var(--vp-color, rgba(191,0,255,0.4)) 12px, transparent 12px) 0 0 / 100% 1px no-repeat,
+    linear-gradient(to bottom, var(--vp-color, rgba(191,0,255,0.4)) 0, var(--vp-color, rgba(191,0,255,0.4)) 12px, transparent 12px) 0 0 / 1px 100% no-repeat,
+    /* bottom-right corner */
+    linear-gradient(to left,   var(--vp-color, rgba(191,0,255,0.4)) 0, var(--vp-color, rgba(191,0,255,0.4)) 12px, transparent 12px) 100% 100% / 100% 1px no-repeat,
+    linear-gradient(to top,    var(--vp-color, rgba(191,0,255,0.4)) 0, var(--vp-color, rgba(191,0,255,0.4)) 12px, transparent 12px) 100% 100% / 1px 100% no-repeat;
+}
+
+.image-viewport:hover {
+  border-color: var(--vp-color, rgba(191,0,255,0.5));
+  box-shadow: 0 0 20px color-mix(in srgb, var(--vp-color) 30%, transparent);
+}
+
+.vp-drag {
+  border-color: var(--cyan) !important;
+  box-shadow: var(--glow-cyan) !important;
+}
+
+/* ── Header — channel label strip ── */
+.vp-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 4px 8px;
+  background: rgba(0,0,0,0.6);
+  border-bottom: 1px solid rgba(191,0,255,0.15);
+  flex-shrink: 0; gap: 6px;
+  position: relative;
+}
+
+.vp-label {
+  display: flex; align-items: center; gap: 5px;
+  min-width: 0; flex: 1;
+}
+
+.vp-index {
+  font-family: var(--font-hud);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.18em;
+  flex-shrink: 0;
+  text-shadow: 0 0 8px currentColor;
+}
+
+.vp-display-tag {
+  font-family: var(--font-hud);
+  font-size: 6px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--text-lo);
+  background: rgba(191,0,255,0.06);
+  border: 1px solid rgba(191,0,255,0.15);
+  border-radius: 1px; padding: 1px 4px;
+  flex-shrink: 0;
+}
+
+.vp-filename {
+  font-family: var(--font-crt);
+  font-size: 11px; color: var(--text-lo);
+  max-width: 80px;
+}
+
+.vp-actions { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+
+/* ── Dual screen panels ── */
+.vp-panels {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  flex: 1; min-height: 0;
+}
+
+/* Divider between spatial and FT */
+.vp-panels::after {
+  display: none;
+}
+
+.vp-panel {
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  background: #000;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* Phosphor CRT glow on panels */
+.vp-panel:first-child { border-right: 1px solid rgba(191,0,255,0.12); }
+
+/* Scanlines */
+.vp-panel::after {
+  content: '';
+  position: absolute; inset: 0; z-index: 3; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, transparent 0, transparent 2px,
+    rgba(0,0,0,0.12) 2px, rgba(0,0,0,0.12) 4px
+  );
+}
+
+/* VHS color fringe on top/bottom */
+.vp-panel::before {
+  content: '';
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background:
+    linear-gradient(180deg,
+      rgba(255,0,110,0.04) 0%, transparent 8%,
+      transparent 92%, rgba(0,245,255,0.04) 100%
+    );
+}
+
+.vp-panel-spatial { cursor: crosshair; }
+
+.vp-image { width: 100%; height: 100%; object-fit: contain; display: block; z-index: 1; position: relative; }
+
+.vp-empty {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px; height: 100%; cursor: pointer; padding: 12px; text-align: center;
+  position: relative; z-index: 1;
+}
+
+.vp-empty-icon {
+  width: 32px; height: 32px;
+  border: 1px dashed;
+  border-radius: 2px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0.45;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.vp-panel-label {
+  position: absolute; bottom: 3px; left: 5px;
+  font-family: var(--font-hud); font-size: 7px; letter-spacing: 0.16em;
+  color: var(--text-lo); opacity: 0.85; pointer-events: none; z-index: 4;
+}
+
+.vp-bc-hint {
+  position: absolute; bottom: 3px; right: 5px;
+  font-family: var(--font-crt); font-size: 10px;
+  color: var(--violet); opacity: 0.55; pointer-events: none; z-index: 4;
+}
+
+.vp-overlay {
+  position: absolute; inset: 0; z-index: 10;
+  background: rgba(7,0,15,0.8);
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(2px);
+}
+
+.vp-ft-updating {
+  position: absolute; top: 4px; right: 4px; z-index: 5; opacity: 0.6;
+}
+
+/* ── Footer: FT selector — like a channel mode switch ── */
+.vp-footer {
+  padding: 4px 8px;
+  border-top: 1px solid rgba(191,0,255,0.12);
+  flex-shrink: 0;
+  background: rgba(0,0,0,0.5);
+}
+
+.vp-select-wrap { position: relative; }
+
+.vp-select {
+  font-family: var(--font-hud); font-size: 8px; letter-spacing: 0.08em;
+  padding: 3px 20px 3px 6px;
+  background: rgba(7,0,15,0.8);
+  color: var(--text-mid);
+  border-color: rgba(191,0,255,0.2);
+  cursor: pointer;
+  border-radius: 2px;
+}
+.vp-select:hover { border-color: var(--violet); }
+.vp-select:disabled { opacity: 0.25; cursor: not-allowed; }
+
+.vp-select-arrow {
+  position: absolute; right: 5px; top: 50%; transform: translateY(-50%);
+  color: var(--violet); pointer-events: none;
+}

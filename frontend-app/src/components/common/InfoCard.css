@@ -1,0 +1,180 @@
+/* ══════════════════════════════════════════════
+   INFO CARD — Oscilloscope readout style
+══════════════════════════════════════════════ */
+.info-card {
+  border: 1px solid rgba(191,0,255,0.2);
+  border-radius: var(--r2);
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.info-card-open {
+  border-color: rgba(0,245,255,0.25);
+}
+
+/* Toggle button — looks like a panel label */
+.info-card-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 5px 9px;
+  background: rgba(0,0,0,0.3);
+  border: none;
+  cursor: pointer;
+  color: var(--text-mid);
+  font-family: var(--font-hud);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.15s, color 0.15s;
+  text-align: left;
+}
+
+.info-card-toggle:hover {
+  background: rgba(0,245,255,0.05);
+  color: var(--cyan);
+}
+
+.info-card-open .info-card-toggle {
+  color: var(--cyan);
+  background: rgba(0,245,255,0.06);
+  border-bottom: 1px solid rgba(0,245,255,0.15);
+}
+
+.info-card-toggle svg:first-child { color: var(--cyan); opacity: 0.7; }
+.info-card-toggle span { flex: 1; }
+.info-card-toggle svg:last-child { flex-shrink: 0; }
+
+/* Body */
+.info-card-body {
+  padding: 10px;
+  background: rgba(7,0,15,0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  animation: infoFadeIn 0.15s ease;
+}
+
+@keyframes infoFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Two columns */
+.info-cols {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 6px;
+  align-items: start;
+}
+
+.info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-col-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.info-domain-tag {
+  font-family: Georgia, serif;
+  font-size: 9px;
+  font-style: italic;
+  padding: 1px 5px;
+  border-radius: 2px;
+  flex-shrink: 0;
+  font-weight: normal;
+}
+
+.info-tag-spatial {
+  background: rgba(0,245,255,0.1);
+  color: var(--cyan);
+  border: 1px solid rgba(0,245,255,0.25);
+}
+
+.info-tag-freq {
+  background: rgba(232,0,94,0.1);
+  color: var(--pink);
+  border: 1px solid rgba(232,0,94,0.25);
+}
+
+.info-col-title {
+  font-family: var(--font-hud);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+}
+
+.info-text {
+  font-family: var(--font-data);
+  font-size: 10px;
+  line-height: 1.55;
+  color: var(--text-mid);
+}
+
+/* Divider arrow */
+.info-divider {
+  font-size: 16px;
+  color: var(--violet);
+  text-shadow: 0 0 8px var(--violet);
+  align-self: center;
+  flex-shrink: 0;
+  padding-top: 14px;
+}
+
+/* Duality callout strip */
+.info-duality {
+  display: flex;
+  gap: 8px;
+  padding: 7px 9px;
+  background: linear-gradient(90deg, rgba(191,0,255,0.08), rgba(0,245,255,0.05));
+  border: 1px solid rgba(191,0,255,0.2);
+  border-radius: var(--r1);
+  align-items: flex-start;
+}
+
+.info-duality-label {
+  font-family: var(--font-hud);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--violet);
+  text-shadow: 0 0 6px rgba(191,0,255,0.5);
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.info-duality-text {
+  font-family: var(--font-data);
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--text-mid);
+}
+
+/* ── Light mode overrides ── */
+[data-theme="light"] .info-card { border-color: rgba(136,0,204,0.18); }
+[data-theme="light"] .info-card-open { border-color: rgba(0,153,187,0.3); }
+[data-theme="light"] .info-card-toggle {
+  background: rgba(255,235,215,0.7);
+  color: var(--text-mid);
+}
+[data-theme="light"] .info-card-toggle:hover { background: rgba(0,153,187,0.07); color: var(--cyan); }
+[data-theme="light"] .info-card-open .info-card-toggle {
+  background: rgba(0,153,187,0.08);
+  border-bottom-color: rgba(0,153,187,0.2);
+}
+[data-theme="light"] .info-card-body { background: rgba(255,248,240,0.9); }
+[data-theme="light"] .info-text { color: var(--text-hi); }
+[data-theme="light"] .info-duality { background: linear-gradient(90deg, rgba(136,0,204,0.06), rgba(0,153,187,0.04)); border-color: rgba(136,0,204,0.18); }
+[data-theme="light"] .info-duality-text { color: var(--text-hi); }
+[data-theme="light"] .info-col-title { color: var(--text-lo); }

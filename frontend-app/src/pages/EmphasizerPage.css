@@ -1,0 +1,217 @@
+/* ══════════════════════════════════════════════════
+   EMPHASIZER — Oscilloscope / Patch bay station
+══════════════════════════════════════════════════ */
+.emphasizer-page {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+  gap: 8px;
+  padding: 10px;
+}
+
+/* ── Left: slim controls column ── */
+.ep-controls {
+  width: 268px;
+  flex-shrink: 0;
+  display: flex; flex-direction: column;
+  background: linear-gradient(180deg, rgba(20,0,48,0.97) 0%, rgba(7,0,15,0.99) 100%);
+  border: 1px solid rgba(191,0,255,0.22);
+  border-radius: var(--r2);
+  overflow-y: auto;
+  position: relative;
+}
+
+.ep-controls::before {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--cyan), var(--violet) 50%, transparent);
+  opacity: 0.5; pointer-events: none; z-index: 10;
+}
+
+.ep-section { padding: 9px 13px; display: flex; flex-direction: column; gap: 6px; }
+
+.ep-section-title {
+  display: flex; align-items: center; gap: 5px;
+  font-family: var(--font-hud); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--cyan); text-shadow: 0 0 6px rgba(0,245,255,0.45);
+}
+
+.ep-select-wrap { position: relative; }
+.ep-select-arrow {
+  position: absolute; right: 7px; top: 50%; transform: translateY(-50%);
+  color: var(--violet); pointer-events: none;
+}
+
+/* Domain toggle — the centrepiece */
+.ep-domain-toggle { display: flex; align-items: center; gap: 4px; }
+
+.ep-domain-btn {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 8px 5px;
+  border: 1px solid rgba(191,0,255,0.18);
+  border-radius: var(--r1);
+  background: rgba(0,0,0,0.5);
+  color: var(--text-lo);
+  font-family: var(--font-hud); font-size: 8px; font-weight: 700;
+  letter-spacing: 0.1em; cursor: pointer; transition: all 0.2s;
+  text-align: center; text-transform: uppercase;
+}
+.ep-domain-btn:hover { border-color: var(--violet); color: var(--violet); background: rgba(191,0,255,0.05); }
+.ep-domain-icon { font-size: 13px; font-style: italic; opacity: 0.6; font-family: Georgia, serif; }
+
+.ep-domain-active-spatial {
+  border-color: rgba(0,245,255,0.5); color: var(--cyan);
+  background: rgba(0,245,255,0.07);
+  box-shadow: 0 0 12px rgba(0,245,255,0.15), inset 0 0 8px rgba(0,245,255,0.04);
+  text-shadow: 0 0 8px rgba(0,245,255,0.6);
+}
+.ep-domain-active-freq {
+  border-color: rgba(255,140,0,0.5); color: var(--amber);
+  background: rgba(255,140,0,0.07);
+  box-shadow: 0 0 12px rgba(255,140,0,0.15), inset 0 0 8px rgba(255,140,0,0.04);
+  text-shadow: 0 0 8px rgba(255,140,0,0.6);
+}
+
+.ep-domain-arrow {
+  font-size: 18px; color: var(--violet); flex-shrink: 0;
+  text-shadow: 0 0 10px var(--violet); line-height: 1;
+}
+
+.ep-domain-hint { font-size: 9px; color: var(--text-lo); line-height: 1.5; font-style: italic; }
+
+/* Param rows */
+.ep-param-row {
+  display: grid; grid-template-columns: 60px 1fr 36px;
+  align-items: center; gap: 7px;
+}
+.ep-param-row-toggle { grid-template-columns: 60px 1fr; }
+
+.ep-val {
+  font-family: var(--font-crt); font-size: 13px; color: var(--cyan);
+  text-align: right; text-shadow: 0 0 4px rgba(0,245,255,0.4);
+}
+
+.ep-toggle-group { display: flex; gap: 2px; flex-wrap: wrap; }
+.ep-toggle {
+  padding: 3px 6px; border: 1px solid rgba(191,0,255,0.18);
+  border-radius: 1px; background: transparent; color: var(--text-lo);
+  font-family: var(--font-hud); font-size: 7px; font-weight: 700;
+  letter-spacing: 0.1em; cursor: pointer; transition: all 0.12s; text-transform: uppercase;
+}
+.ep-toggle:hover { border-color: var(--violet); color: var(--violet); }
+.ep-toggle-active { background: rgba(0,245,255,0.08); border-color: rgba(0,245,255,0.4); color: var(--cyan); text-shadow: 0 0 4px rgba(0,245,255,0.5); }
+
+.ep-no-params { font-size: 10px; color: var(--text-lo); opacity: 0.8; font-style: italic; }
+.ep-hint-small { font-size: 9px; color: var(--text-lo); opacity: 0.85; line-height: 1.4; }
+
+/* Live badge */
+.ep-live-badge {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 13px; font-family: var(--font-hud);
+  font-size: 8px; color: var(--text-lo); letter-spacing: 0.1em;
+  border-top: 1px solid rgba(191,0,255,0.12); margin-top: auto;
+}
+.ep-live-dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+  transition: all 0.2s;
+}
+.ep-live-idle { background: var(--green); box-shadow: 0 0 8px var(--green), 0 0 16px rgba(0,255,159,0.4); animation: pulse 2s infinite; }
+.ep-live-active { background: var(--pink); box-shadow: 0 0 8px var(--pink), 0 0 16px rgba(255,0,110,0.4); animation: pulse 0.45s infinite; }
+
+/* ── Right: oscilloscope screen array ── */
+.ep-results {
+  flex: 1;
+  display: flex; flex-direction: column;
+  gap: 6px; overflow: hidden; min-width: 0;
+}
+
+.ep-results-header {
+  display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0; padding: 0 2px;
+}
+
+.ep-domain-sep { flex: 1; display: flex; justify-content: center; }
+
+/* 2×2 oscilloscope screens */
+.ep-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 6px; flex: 1; min-height: 0;
+}
+
+/* Each oscilloscope screen */
+.ep-panel {
+  display: flex; flex-direction: column;
+  background: #000;
+  border: 1px solid rgba(191,0,255,0.2);
+  border-radius: var(--r2);
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+/* Transformed panels get a different accent */
+.ep-panel-highlight {
+  border-color: rgba(0,245,255,0.22);
+}
+.ep-panel-highlight::after {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px; z-index: 5;
+  background: linear-gradient(90deg, transparent, var(--cyan) 30%, var(--cyan) 70%, transparent);
+  box-shadow: 0 0 6px var(--cyan);
+  pointer-events: none;
+}
+
+.ep-panel-label {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 4px 8px;
+  background: rgba(7,0,15,0.95);
+  border-bottom: 1px solid rgba(191,0,255,0.1);
+  flex-shrink: 0; position: relative; z-index: 4; gap: 8px;
+}
+
+.ep-panel-body {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  background: #000;
+  min-height: 0; position: relative;
+}
+
+/* CRT scanlines on each scope screen */
+.ep-panel-body::after {
+  content: ''; position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg, transparent 0, transparent 2px,
+    rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 4px
+  );
+}
+
+/* Phosphor glow effect */
+.ep-panel-body::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse at 50% 50%,
+    rgba(191,0,255,0.03) 0%, transparent 70%
+  );
+}
+
+.ep-image {
+  width: 100%; height: 100%; object-fit: contain;
+  display: block; position: relative; z-index: 1;
+}
+
+.ep-panel-empty {
+  width: 100%; height: 100%;
+  background: repeating-linear-gradient(
+    45deg, transparent, transparent 15px,
+    rgba(191,0,255,0.02) 15px, rgba(191,0,255,0.02) 16px
+  );
+  position: relative; z-index: 1;
+}
+
+.ep-panel-updating {
+  position: absolute; top: 5px; right: 5px; z-index: 5;
+  color: var(--pink); opacity: 0.8;
+  filter: drop-shadow(0 0 4px var(--pink));
+}

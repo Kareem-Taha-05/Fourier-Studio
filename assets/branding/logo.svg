@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <defs>
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#ffffff"/>
+      <stop offset="50%"  stop-color="#C8C8D0"/>
+      <stop offset="100%" stop-color="#BF00FF"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#00F5FF"/>
+      <stop offset="100%" stop-color="#FF006E"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Icon box -->
+  <rect x="4" y="8" width="44" height="44" rx="4"
+        fill="none" stroke="#FF006E" stroke-width="1.5"
+        filter="url(#glow)" opacity="0.9"/>
+  <!-- Sine wave inside box -->
+  <path d="M 10 30 Q 15 18 20 30 Q 25 42 30 30 Q 35 18 40 30"
+        fill="none" stroke="#00F5FF" stroke-width="2"
+        stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- FREQ text -->
+  <text x="58" y="34"
+        font-family="'Orbitron', sans-serif"
+        font-size="20" font-weight="900"
+        letter-spacing="2"
+        fill="url(#titleGrad)">FREQ</text>
+
+  <!-- WAVE accent -->
+  <text x="116" y="34"
+        font-family="'Orbitron', sans-serif"
+        font-size="20" font-weight="900"
+        letter-spacing="2"
+        fill="url(#accentGrad)"
+        filter="url(#glow)">WAVE</text>
+
+  <!-- Subtitle -->
+  <text x="58" y="48"
+        font-family="'Share Tech Mono', monospace"
+        font-size="7" letter-spacing="3"
+        fill="#9060D0" opacity="0.8">FOURIER TRANSFORM STUDIO</text>
+</svg>

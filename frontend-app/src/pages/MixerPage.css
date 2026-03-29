@@ -1,0 +1,83 @@
+.mixer-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  padding: 10px 10px 10px 10px;
+  gap: 8px;
+}
+
+/* ── Tape deck strip ── */
+.mixer-tape-deck {
+  display: flex;
+  flex-direction: column;
+  flex: 1.5;
+  min-height: 0;
+  gap: 6px;
+}
+
+.mixer-deck-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.deck-title {
+  font-family: var(--font-hud);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--pink);
+  text-shadow: 0 0 8px rgba(255,0,110,0.5);
+  text-transform: uppercase;
+}
+
+.deck-hint {
+  font-family: var(--font-hud);
+  font-size: 7px;
+  letter-spacing: 0.16em;
+  color: var(--text-lo);
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+/* 4 slots in a row */
+.mixer-slots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Bottom area ── */
+.mixer-bottom {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+}
+
+.mixer-monitors {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.monitors-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.monitors-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  flex: 1;
+  min-height: 0;
+}
