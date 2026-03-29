@@ -1,0 +1,389 @@
+/* ================================================================
+   FREQWAVE — MkDocs Documentation Theme
+   Matches the application's Vaporwave / Synthwave design language
+   ================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=VT323&family=Share+Tech+Mono&display=swap');
+
+/* ── Custom colour tokens ── */
+:root {
+  --fw-pink:   #FF006E;
+  --fw-cyan:   #00F5FF;
+  --fw-violet: #BF00FF;
+  --fw-green:  #00FF9F;
+  --fw-amber:  #FF8C00;
+  --fw-chrome: #C8C8D0;
+}
+
+/* ════════════════════════════════════════════
+   DARK MODE  (slate scheme)
+════════════════════════════════════════════ */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:        #BF00FF;
+  --md-primary-fg-color--light: #D060FF;
+  --md-primary-fg-color--dark:  #8800BB;
+  --md-accent-fg-color:         #00F5FF;
+
+  --md-default-bg-color:        #07000F;
+  --md-default-bg-color--light: #0E0020;
+  --md-default-fg-color:        #F5EEFF;
+  --md-default-fg-color--light: #C8A8F0;
+  --md-default-fg-color--lighter: #9060D0;
+
+  --md-code-bg-color:           #0E0020;
+  --md-code-fg-color:           #00F5FF;
+  --md-code-hl-color:           rgba(0, 245, 255, 0.08);
+
+  --md-typeset-a-color:         #00F5FF;
+  --md-typeset-table-color:     rgba(191, 0, 255, 0.08);
+
+  --md-admonition-bg-color:     rgba(14, 0, 32, 0.8);
+  --md-footer-bg-color:         #0E0020;
+  --md-footer-bg-color--dark:   #07000F;
+}
+
+/* ════════════════════════════════════════════
+   LIGHT MODE  (default scheme — Neon Bloom)
+════════════════════════════════════════════ */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:        #8800CC;
+  --md-primary-fg-color--light: #AA22EE;
+  --md-primary-fg-color--dark:  #660099;
+  --md-accent-fg-color:         #E8005E;
+
+  --md-default-bg-color:        #FFF8F2;
+  --md-default-bg-color--light: #FFF3EA;
+  --md-default-fg-color:        #1A0030;
+  --md-default-fg-color--light: #5500AA;
+  --md-default-fg-color--lighter: #9944CC;
+
+  --md-code-bg-color:           #FFEDE0;
+  --md-code-fg-color:           #8800CC;
+  --md-code-hl-color:           rgba(136, 0, 204, 0.08);
+
+  --md-typeset-a-color:         #0099BB;
+  --md-typeset-table-color:     rgba(136, 0, 204, 0.06);
+
+  --md-admonition-bg-color:     rgba(255, 240, 228, 0.9);
+  --md-footer-bg-color:         #FFE4D0;
+  --md-footer-bg-color--dark:   #FFCCAA;
+}
+
+/* ── Typography ── */
+body,
+.md-typeset {
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.md-header__title,
+.md-nav__title,
+h1, h2, h3, h4 {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.04em;
+}
+
+/* Code blocks use VT323 for that LCD readout feel */
+.md-typeset code,
+.md-typeset pre code {
+  font-family: 'VT323', monospace !important;
+  font-size: 1.05em;
+}
+
+/* ── Header bar ── */
+.md-header {
+  background: linear-gradient(180deg, #1A0038 0%, #0E0020 100%);
+  box-shadow: 0 2px 0 var(--fw-violet), 0 4px 20px rgba(191, 0, 255, 0.2);
+}
+
+[data-md-color-scheme="default"] .md-header {
+  background: linear-gradient(180deg, #FFF0E8 0%, #FFE8D8 100%);
+  box-shadow: 0 2px 0 rgba(136,0,204,0.3), 0 4px 12px rgba(136,0,204,0.1);
+}
+
+/* Neon rainbow strip under header */
+.md-header::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg,
+    var(--fw-pink) 0%, var(--fw-violet) 33%,
+    var(--fw-cyan) 66%, var(--fw-pink) 100%
+  );
+  box-shadow: 0 0 12px rgba(191,0,255,0.5);
+}
+
+/* ── Site name / logo area ── */
+.md-header__title {
+  font-size: 1.1rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  background: linear-gradient(180deg, #fff 0%, var(--fw-chrome) 50%, #aaa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 8px rgba(191,0,255,0.4));
+}
+
+[data-md-color-scheme="default"] .md-header__title {
+  background: linear-gradient(180deg, #220044 0%, #440088 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  filter: none;
+}
+
+/* ── Navigation tabs ── */
+.md-tabs {
+  background: rgba(7, 0, 15, 0.95);
+  border-bottom: 1px solid rgba(191,0,255,0.2);
+}
+
+[data-md-color-scheme="default"] .md-tabs {
+  background: rgba(255, 240, 228, 0.95);
+  border-bottom: 1px solid rgba(136,0,204,0.2);
+}
+
+.md-tabs__link {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.65;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  color: var(--fw-cyan) !important;
+  opacity: 1;
+  text-shadow: 0 0 8px rgba(0,245,255,0.5);
+}
+
+[data-md-color-scheme="default"] .md-tabs__link:hover,
+[data-md-color-scheme="default"] .md-tabs__link--active {
+  color: var(--fw-violet) !important;
+  text-shadow: none;
+}
+
+/* ── Sidebar navigation ── */
+.md-nav__item--active > .md-nav__link {
+  color: var(--fw-cyan) !important;
+  font-weight: 700;
+}
+
+[data-md-color-scheme="default"] .md-nav__item--active > .md-nav__link {
+  color: var(--fw-violet) !important;
+}
+
+/* ── Content headings ── */
+.md-typeset h1 {
+  color: var(--fw-pink);
+  text-shadow: 0 0 20px rgba(255,0,110,0.3);
+  font-weight: 900;
+  border-bottom: 1px solid rgba(255,0,110,0.2);
+  padding-bottom: 0.4em;
+}
+
+[data-md-color-scheme="default"] .md-typeset h1 {
+  color: var(--fw-pink);
+  text-shadow: none;
+}
+
+.md-typeset h2 {
+  color: var(--fw-cyan);
+  text-shadow: 0 0 12px rgba(0,245,255,0.25);
+}
+
+[data-md-color-scheme="default"] .md-typeset h2 {
+  color: #0077AA;
+  text-shadow: none;
+}
+
+.md-typeset h3 {
+  color: var(--fw-violet);
+}
+
+[data-md-color-scheme="default"] .md-typeset h3 {
+  color: #6600AA;
+}
+
+/* ── Code blocks ── */
+.md-typeset pre {
+  border: 1px solid rgba(191,0,255,0.25);
+  border-radius: 4px;
+  box-shadow: 0 0 12px rgba(191,0,255,0.08), inset 0 0 20px rgba(0,0,0,0.3);
+}
+
+[data-md-color-scheme="default"] .md-typeset pre {
+  border-color: rgba(136,0,204,0.2);
+  box-shadow: none;
+}
+
+/* Inline code */
+.md-typeset code:not(pre code) {
+  background: rgba(191,0,255,0.1);
+  border: 1px solid rgba(191,0,255,0.2);
+  border-radius: 3px;
+  color: var(--fw-cyan);
+  padding: 0.1em 0.4em;
+}
+
+[data-md-color-scheme="default"] .md-typeset code:not(pre code) {
+  background: rgba(136,0,204,0.07);
+  border-color: rgba(136,0,204,0.2);
+  color: #8800CC;
+}
+
+/* ── Tables ── */
+.md-typeset table:not([class]) {
+  border: 1px solid rgba(191,0,255,0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background: rgba(191,0,255,0.12);
+  color: var(--fw-cyan);
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(191,0,255,0.3);
+}
+
+[data-md-color-scheme="default"] .md-typeset table:not([class]) th {
+  background: rgba(136,0,204,0.08);
+  color: #8800CC;
+}
+
+/* ── Admonitions (notes, tips, warnings) ── */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: 4px;
+  border-left-width: 3px;
+}
+
+.md-typeset .note > .admonition-title,
+.md-typeset .note > summary {
+  background: rgba(0,245,255,0.08) !important;
+  border-color: var(--fw-cyan) !important;
+}
+
+.md-typeset .tip > .admonition-title,
+.md-typeset .tip > summary {
+  background: rgba(0,255,159,0.08) !important;
+  border-color: var(--fw-green) !important;
+}
+
+.md-typeset .warning > .admonition-title,
+.md-typeset .warning > summary {
+  background: rgba(255,140,0,0.08) !important;
+  border-color: var(--fw-amber) !important;
+}
+
+/* ── Hero section (home page) ── */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem 2rem;
+  background: linear-gradient(135deg,
+    rgba(191,0,255,0.05) 0%,
+    rgba(0,245,255,0.03) 50%,
+    rgba(255,0,110,0.05) 100%
+  );
+  border: 1px solid rgba(191,0,255,0.15);
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Grid background in hero */
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(90deg,  transparent 0, transparent 39px, rgba(191,0,255,0.04) 39px, rgba(191,0,255,0.04) 40px),
+    repeating-linear-gradient(180deg, transparent 0, transparent 39px, rgba(191,0,255,0.03) 39px, rgba(191,0,255,0.03) 40px);
+  pointer-events: none;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  border: none !important;
+  margin-bottom: 0.3em;
+}
+
+[data-md-color-scheme="default"] .hero {
+  background: linear-gradient(135deg,
+    rgba(136,0,204,0.04) 0%,
+    rgba(0,153,187,0.03) 50%,
+    rgba(232,0,94,0.04) 100%
+  );
+  border-color: rgba(136,0,204,0.15);
+}
+
+/* ── Buttons on hero ── */
+.md-typeset .md-button {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  transition: all 0.2s;
+}
+
+.md-typeset .md-button--primary {
+  background: transparent;
+  border: 1px solid var(--fw-cyan);
+  color: var(--fw-cyan) !important;
+  box-shadow: 0 0 12px rgba(0,245,255,0.2);
+}
+
+.md-typeset .md-button--primary:hover {
+  background: rgba(0,245,255,0.1);
+  box-shadow: 0 0 20px rgba(0,245,255,0.35), 0 0 40px rgba(0,245,255,0.15);
+}
+
+.md-typeset .md-button:not(.md-button--primary) {
+  border: 1px solid rgba(191,0,255,0.4);
+  color: var(--fw-violet) !important;
+}
+
+.md-typeset .md-button:not(.md-button--primary):hover {
+  background: rgba(191,0,255,0.08);
+  border-color: var(--fw-violet);
+}
+
+[data-md-color-scheme="default"] .md-typeset .md-button--primary {
+  border-color: #0099BB;
+  color: #0099BB !important;
+  box-shadow: 0 0 8px rgba(0,153,187,0.2);
+}
+
+/* ── Footer ── */
+.md-footer {
+  border-top: 1px solid rgba(191,0,255,0.15);
+}
+
+.md-footer-meta {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+
+/* ── Search ── */
+.md-search__input {
+  font-family: 'Share Tech Mono', monospace;
+  border-bottom: 1px solid rgba(191,0,255,0.3);
+}
+
+/* ── Scrollbar ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(191,0,255,0.3) transparent;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(191,0,255,0.3); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(191,0,255,0.6); }
