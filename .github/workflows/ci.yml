@@ -25,22 +25,19 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd backend
-          pip install -r requirements.txt
-          pip install -r ../requirements-dev.txt
+          pip install -r backend/requirements.txt
+          pip install -r requirements-dev.txt
 
       - name: Lint with ruff
         run: ruff check backend/
 
       - name: Run tests
-        run: |
-          cd backend
-          pytest tests/ -v --cov=app --cov-report=xml
+        run: pytest tests/ -v --cov=backend/app --cov-report=xml
 
       - name: Upload coverage
         uses: codecov/codecov-action@v4
         with:
-          file: backend/coverage.xml
+          file: coverage.xml
           flags: backend
 
   frontend-build:
@@ -58,11 +55,7 @@ jobs:
           cache-dependency-path: frontend-app/package-lock.json
 
       - name: Install dependencies
-        run: |
-          cd frontend-app
-          npm ci
+        run: cd frontend-app && npm ci
 
       - name: Build
-        run: |
-          cd frontend-app
-          npm run build
+        run: cd frontend-app && npm run build
