@@ -2,20 +2,18 @@
 FT Properties Emphasizer service (Part B).
 All spatial/frequency domain transformations are encapsulated here.
 """
+from typing import Literal
+
 import numpy as np
 from PIL import Image
-import io
-import base64
-from typing import Literal, Optional
+
 from app.services.image_service import ImageProcessor
 
 WindowType = Literal["rectangular", "gaussian", "hamming", "hanning"]
 
 
 class EmphasizerProcessor(ImageProcessor):
-    """
-    Extends ImageProcessor with all FT property transformation methods.
-    """
+    """Extends ImageProcessor with all FT property transformation methods."""
 
     def apply_shift(self, dy: int, dx: int) -> "EmphasizerProcessor":
         shifted = np.roll(np.roll(self._spatial, dy, axis=0), dx, axis=1)
@@ -107,25 +105,14 @@ class EmphasizerProcessor(ImageProcessor):
         return np.ones(n)
 
     def apply_fourier_repeat(self, times: int) -> "EmphasizerProcessor":
-        """
-        Apply FFT `times` times sequentially.
-        After each FFT, apply log-magnitude normalization so the result
-        stays in a displayable [0,255] range regardless of how many times
-        we apply it. This prevents the DC-spike black-screen issue.
-        """
+        """Apply FFT times times with log-magnitude normalisation between steps."""
         if times == 0:
             return EmphasizerProcessor(self.image_id + "_ft0", self._spatial.copy())
 
         result = self._spatial.astype(np.float64)
-
-        for i in range(times):
-            # FFT and shift
+        for _ in range(times):
             ft = np.fft.fftshift(np.fft.fft2(result))
-            # Log-magnitude normalization: compress dynamic range
-            # so next iteration has a well-behaved input
-            magnitude = np.abs(ft)
-            log_mag = np.log1p(magnitude)
-            # Normalise to [0, 255] so it looks like a grayscale image
+            log_mag = np.log1p(np.abs(ft))
             lo, hi = log_mag.min(), log_mag.max()
             if hi - lo > 1e-10:
                 result = (log_mag - lo) / (hi - lo) * 255.0

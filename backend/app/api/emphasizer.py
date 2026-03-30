@@ -3,13 +3,14 @@ Emphasizer API router (Part B).
 Supports spatial-domain and frequency-domain action application (duality).
 Fourier repeat is applied as a post-processing step on top of any action.
 """
+from typing import Literal
+
+import numpy as np
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-from typing import Literal, Optional
-import numpy as np
 
 from app.services.emphasizer_service import EmphasizerProcessor
-from app.services.image_service import ImageProcessor, image_registry
+from app.services.image_service import image_registry
 
 router = APIRouter(prefix="/emphasizer", tags=["emphasizer"])
 
@@ -49,13 +50,10 @@ class EmphasizeRequest(BaseModel):
 
 
 class EmphasizeResponse(BaseModel):
-    # Top-left, top-right, bottom-left, bottom-right panels
-    # When domain=spatial:   top = original spatial/FT,  bottom = transformed spatial/FT
-    # When domain=frequency: top = original FT/spatial,  bottom = transformed FT/spatial
-    panel_tl_b64: str   # top-left
-    panel_tr_b64: str   # top-right
-    panel_bl_b64: str   # bottom-left
-    panel_br_b64: str   # bottom-right
+    panel_tl_b64: str
+    panel_tr_b64: str
+    panel_bl_b64: str
+    panel_br_b64: str
     panel_tl_label: str
     panel_tr_label: str
     panel_bl_label: str
@@ -84,14 +82,12 @@ async def apply_emphasizer(req: EmphasizeRequest):
 
 
 def _apply_fourier_repeat(proc: EmphasizerProcessor, times: int) -> EmphasizerProcessor:
-    """Apply FFT `times` additional times on top of existing spatial data."""
     if times == 0:
         return proc
     return proc.apply_fourier_repeat(times)
 
 
 def _apply_action(proc: EmphasizerProcessor, req: EmphasizeRequest) -> EmphasizerProcessor:
-    """Dispatch spatial-domain action."""
     if req.action == "shift":
         return proc.apply_shift(req.shift_dy, req.shift_dx)
     elif req.action == "multiply_complex_exp":
@@ -117,20 +113,12 @@ def _apply_action(proc: EmphasizerProcessor, req: EmphasizeRequest) -> Emphasize
 
 
 def _apply_spatial_domain(orig: EmphasizerProcessor, req: EmphasizeRequest) -> EmphasizeResponse:
-    """
-    Apply action in spatial domain.
-    Layout:
-      TL = original spatial image
-      TR = FT of original
-      BL = transformed spatial (after action + optional repeated FT)
-      BR = FT of transformed
-    """
     transformed = _apply_action(orig, req)
-    # Apply repeated Fourier on top if requested
     transformed = _apply_fourier_repeat(transformed, req.fourier_times)
 
     b, c = req.brightness, req.contrast
     ft = req.ft_component
+    ft_suffix = f" + FT×{req.fourier_times}" if req.fourier_times > 0 else ""
 
     return EmphasizeResponse(
         panel_tl_b64=orig.spatial_to_b64(b, c),
@@ -139,7 +127,7 @@ def _apply_spatial_domain(orig: EmphasizerProcessor, req: EmphasizeRequest) -> E
         panel_br_b64=transformed.ft_component_to_b64(ft, b, c),
         panel_tl_label="Original — Spatial",
         panel_tr_label=f"Original — FT {ft}",
-        panel_bl_label=f"Transformed — {req.action}" + (f" + FT×{req.fourier_times}" if req.fourier_times > 0 else ""),
+        panel_bl_label=f"Transformed — {req.action}{ft_suffix}",
         panel_br_label=f"FT of Transformed — {ft}",
         domain="spatial",
         action=req.action,
@@ -147,42 +135,22 @@ def _apply_spatial_domain(orig: EmphasizerProcessor, req: EmphasizeRequest) -> E
 
 
 def _apply_frequency_domain(orig: EmphasizerProcessor, req: EmphasizeRequest) -> EmphasizeResponse:
-    """
-    Apply action in frequency domain (duality mode).
-    We operate on the FT of the image, apply the action there,
-    then IFFT back to get the resulting spatial image.
-    Layout:
-      TL = FT of original (this is the "input" being modified)
-      TR = original spatial image
-      BL = FT after action (transformed frequency domain)
-      BR = IFFT of transformed FT (resulting spatial)
-    """
     b, c = req.brightness, req.contrast
     ft_comp = req.ft_component
 
-    # Build an EmphasizerProcessor whose _spatial IS the FT magnitude/component
-    # We work on the magnitude of the FT as the "spatial" input
     orig._compute_ft()
-    ft_data = orig._ft_shifted  # complex
+    ft_data = orig._ft_shifted
 
-    # Convert the FT to a real-valued image for spatial-domain operations
-    # We use the magnitude (log-scaled for visual use but raw for processing)
-    ft_as_spatial = np.abs(ft_data)  # raw magnitude
-
+    ft_as_spatial = np.abs(ft_data)
     ft_proc = EmphasizerProcessor(orig.image_id + "_ft_domain", ft_as_spatial)
     transformed_ft_proc = _apply_action(ft_proc, req)
     transformed_ft_proc = _apply_fourier_repeat(transformed_ft_proc, req.fourier_times)
 
-    # The "result spatial" is the IFFT of the transformed FT magnitude
-    # We reconstruct a complex FT using transformed magnitude + original phase
     orig_phase = np.angle(ft_data)
     transformed_mag = transformed_ft_proc.get_spatial_image()
 
-    # Resize phase to match if rotation expanded canvas
+    # Crop/pad to match phase shape if rotation expanded the canvas
     if transformed_mag.shape != orig_phase.shape:
-        from PIL import Image as PILImage
-        pil = PILImage.fromarray(orig_phase.astype(np.float32))
-        # just take original size — use original phase unmodified
         transformed_mag_resized = np.zeros_like(orig_phase)
         h = min(transformed_mag.shape[0], orig_phase.shape[0])
         w = min(transformed_mag.shape[1], orig_phase.shape[1])
@@ -193,6 +161,8 @@ def _apply_frequency_domain(orig: EmphasizerProcessor, req: EmphasizeRequest) ->
     result_spatial = np.abs(np.fft.ifft2(np.fft.ifftshift(reconstructed_ft)))
     result_proc = EmphasizerProcessor(orig.image_id + "_ft_result", result_spatial)
 
+    ft_suffix = f" + FT×{req.fourier_times}" if req.fourier_times > 0 else ""
+
     return EmphasizeResponse(
         panel_tl_b64=orig.ft_component_to_b64(ft_comp, b, c),
         panel_tr_b64=orig.spatial_to_b64(b, c),
@@ -200,7 +170,7 @@ def _apply_frequency_domain(orig: EmphasizerProcessor, req: EmphasizeRequest) ->
         panel_br_b64=result_proc.spatial_to_b64(b, c),
         panel_tl_label=f"Original FT — {ft_comp}",
         panel_tr_label="Original — Spatial",
-        panel_bl_label=f"Transformed FT — {req.action}" + (f" + FT×{req.fourier_times}" if req.fourier_times > 0 else ""),
+        panel_bl_label=f"Transformed FT — {req.action}{ft_suffix}",
         panel_br_label="Result Spatial (IFFT)",
         domain="frequency",
         action=req.action,

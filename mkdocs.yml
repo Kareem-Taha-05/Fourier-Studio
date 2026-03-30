@@ -1,8 +1,8 @@
-site_name: FREQWAVE
+site_name: Fourier Studio
 site_description: Interactive 2D Fourier Transform learning and experimentation platform
-site_url: https://YOUR_USERNAME.github.io/freqwave
-repo_url: https://github.com/YOUR_USERNAME/freqwave
-repo_name: YOUR_USERNAME/freqwave
+site_url: https://kareem-taha-05.github.io/Fourier-Studio
+repo_url: https://github.com/Kareem-Taha-05/Fourier-Studio
+repo_name: Kareem-Taha-05/Fourier-Studio
 edit_uri: edit/main/docs/
 
 theme:
@@ -86,6 +86,6 @@ plugins:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/YOUR_USERNAME/freqwave
+      link: https://github.com/Kareem-Taha-05/Fourier-Studio
   version:
     provider: mike

@@ -31,7 +31,7 @@ export default function NavBar() {
       <div className="navbar-brand">
         <div className="navbar-logo"><Radio size={18} className="logo-icon" /></div>
         <div className="navbar-wordmark">
-          <span className="navbar-title">FREQ<span className="navbar-title-accent">WAVE</span></span>
+          <span className="navbar-title">FOURIER <span className="navbar-title-accent">STUDIO</span></span>
           <span className="navbar-subtitle">Fourier Transform Studio</span>
         </div>
       </div>

@@ -1,6 +1,6 @@
-from pydantic import BaseModel, Field, field_validator
-from typing import Literal, Optional
+from typing import Literal
 
+from pydantic import BaseModel, Field, field_validator
 
 FTComponent = Literal["magnitude", "phase", "real", "imaginary"]
 ResizePolicy = Literal["smallest", "largest", "fixed"]
@@ -30,19 +30,13 @@ class FTComponentResponse(BaseModel):
 class MixRequest(BaseModel):
     image_ids: list[str] = Field(..., min_length=1, max_length=4)
     weights: list[float] = Field(..., min_length=1, max_length=4)
-
-    # Per-image component roles: what each image contributes to the mix.
-    # In magnitude_phase mode each role must be "magnitude" or "phase".
-    # In real_imaginary mode each role must be "real" or "imaginary".
-    # Same length as image_ids.
     image_roles: list[FTComponent] = Field(..., min_length=1, max_length=4)
-
     mix_mode: MixMode = "magnitude_phase"
     resize_policy: ResizePolicy = "smallest"
     fixed_height: int = Field(default=512, ge=64, le=2048)
     fixed_width: int = Field(default=512, ge=64, le=2048)
     keep_aspect: bool = False
-    region_fraction: Optional[float] = Field(default=None, ge=0.0, le=1.0)
+    region_fraction: float | None = Field(default=None, ge=0.0, le=1.0)
     region_type: Literal["inner", "outer"] = "inner"
     simulate_delay: bool = False
 

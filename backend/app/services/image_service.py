@@ -1,14 +1,15 @@
 """
 Image and Fourier Transform processing service.
-All mathematical operations are encapsulated here - no math in API layer.
+All mathematical operations are encapsulated here — no math in API layer.
 """
+import base64
+import io
+import logging
+import uuid
+from typing import Literal
+
 import numpy as np
 from PIL import Image
-import io
-import base64
-from typing import Literal, Optional
-import uuid
-import logging
 
 logger = logging.getLogger(__name__)
 
@@ -20,8 +21,8 @@ class ImageProcessor:
     def __init__(self, image_id: str, image: np.ndarray):
         self.image_id = image_id
         self._spatial = image.astype(np.float64)
-        self._ft: Optional[np.ndarray] = None
-        self._ft_shifted: Optional[np.ndarray] = None
+        self._ft: np.ndarray | None = None
+        self._ft_shifted: np.ndarray | None = None
 
     @classmethod
     def from_bytes(cls, data: bytes) -> "ImageProcessor":
@@ -46,7 +47,7 @@ class ImageProcessor:
             pil_img = pil_img.resize((width, height), Image.LANCZOS)
         return ImageProcessor(self.image_id, np.array(pil_img, dtype=np.float64))
 
-    def _compute_ft(self):
+    def _compute_ft(self) -> None:
         if self._ft is None:
             self._ft = np.fft.fft2(self._spatial)
             self._ft_shifted = np.fft.fftshift(self._ft)
@@ -102,17 +103,17 @@ class ImageProcessor:
 
 
 class ImageRegistry:
-    def __init__(self):
+    def __init__(self) -> None:
         self._images: dict[str, ImageProcessor] = {}
 
     def add(self, processor: ImageProcessor) -> str:
         self._images[processor.image_id] = processor
         return processor.image_id
 
-    def get(self, image_id: str) -> Optional[ImageProcessor]:
+    def get(self, image_id: str) -> ImageProcessor | None:
         return self._images.get(image_id)
 
-    def remove(self, image_id: str):
+    def remove(self, image_id: str) -> None:
         self._images.pop(image_id, None)
 
     def get_unified_size(
@@ -140,20 +141,10 @@ class ImageRegistry:
 class MixerService:
     """
     Weighted FT component mixing.
-
-    WEIGHT SEMANTICS: weights are kept raw (not normalised to sum=1).
-    A weight of 1.0 means "full contribution", 0.0 means "no contribution".
-    This means the user directly controls the blend ratio:
-      - img1 MAG weight=1.0, img2 MAG weight=0.5 → img1 contributes twice as much magnitude
-      - img1 PHS weight=0.8, img2 PHS weight=0.2 → weighted phase blend
-
-    The raw weighted sum is used directly. If only one image is loaded with
-    weight=1.0, it reconstructs perfectly. If weights sum to more than 1,
-    the result is brighter; less than 1, darker. This is intentional — it
-    lets the user actually see the effect of changing weights.
+    Weights are kept raw (not normalised) so the user sees the effect of changing them.
     """
 
-    def __init__(self, registry: ImageRegistry):
+    def __init__(self, registry: ImageRegistry) -> None:
         self._registry = registry
 
     def mix(
@@ -162,7 +153,7 @@ class MixerService:
         weights: list[float],
         image_roles: list[FTComponent],
         mix_mode: Literal["magnitude_phase", "real_imaginary"],
-        region_mask: Optional[np.ndarray] = None,
+        region_mask: np.ndarray | None = None,
         unified_size: tuple[int, int] = (512, 512),
         keep_aspect: bool = False,
         simulate_delay: bool = False,
@@ -192,7 +183,10 @@ class MixerService:
         return dummy.spatial_to_b64()
 
     def _mix_magnitude_phase(
-        self, entries: list, shape: tuple[int, int], mask: Optional[np.ndarray]
+        self,
+        entries: list,
+        shape: tuple[int, int],
+        mask: np.ndarray | None,
     ) -> np.ndarray:
         h, w = shape
         mixed_mag = np.zeros((h, w), dtype=float)
@@ -203,15 +197,12 @@ class MixerService:
         for p, weight, role in entries:
             p._compute_ft()
             ft = p._ft_shifted
-
             if role == "magnitude":
                 component = np.abs(ft)
                 if mask is not None:
                     component = component * mask
-                # Raw weighted sum — NOT normalised
                 mixed_mag += weight * component
                 has_mag = True
-
             elif role == "phase":
                 component = np.angle(ft)
                 if mask is not None:
@@ -219,7 +210,6 @@ class MixerService:
                 mixed_phase += weight * component
                 has_phase = True
 
-        # If only one type provided, use the other from first available image
         if not has_mag and entries:
             p, _, _ = entries[0]
             p._compute_ft()
@@ -232,7 +222,10 @@ class MixerService:
         return mixed_mag * np.exp(1j * mixed_phase)
 
     def _mix_real_imaginary(
-        self, entries: list, shape: tuple[int, int], mask: Optional[np.ndarray]
+        self,
+        entries: list,
+        shape: tuple[int, int],
+        mask: np.ndarray | None,
     ) -> np.ndarray:
         h, w = shape
         mixed_real = np.zeros((h, w), dtype=float)
@@ -243,12 +236,10 @@ class MixerService:
         for p, weight, role in entries:
             p._compute_ft()
             ft = p._ft_shifted
-
             if role == "real":
                 component = ft.real if mask is None else ft.real * mask
                 mixed_real += weight * component
                 has_real = True
-
             elif role == "imaginary":
                 component = ft.imag if mask is None else ft.imag * mask
                 mixed_imag += weight * component

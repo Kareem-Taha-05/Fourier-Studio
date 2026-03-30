@@ -3,11 +3,12 @@ Mixer API router.
 Handles FT mixing with threading support for cancellable long operations.
 """
 import asyncio
-import numpy as np
-from fastapi import APIRouter, HTTPException
-from concurrent.futures import ThreadPoolExecutor
 import threading
 import uuid
+from concurrent.futures import ThreadPoolExecutor
+
+import numpy as np
+from fastapi import APIRouter, HTTPException
 
 from app.models.schemas import MixRequest, MixResponse
 from app.services.image_service import image_registry, mixer_service
@@ -50,7 +51,7 @@ def _run_mix(req: MixRequest, cancel_event: threading.Event):
     result_b64 = mixer_service.mix(
         image_ids=req.image_ids,
         weights=req.weights,
-        image_roles=req.image_roles,      # ← per-image role now passed through
+        image_roles=req.image_roles,
         mix_mode=req.mix_mode,
         region_mask=mask,
         unified_size=unified_size,

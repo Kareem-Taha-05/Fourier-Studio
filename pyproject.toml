@@ -3,14 +3,14 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.backends.legacy:build"
 
 [project]
-name = "freqwave"
+name = "fourier-studio"
 version = "1.0.0"
 description = "Interactive 2D Fourier Transform learning and experimentation platform"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.10"
 authors = [
-  { name = "FREQWAVE Contributors" },
+  { name = "Fourier Studio Contributors" },
 ]
 keywords = [
   "fourier-transform", "dft", "fft", "image-processing",
@@ -43,14 +43,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage       = "https://YOUR_USERNAME.github.io/freqwave"
-Repository     = "https://github.com/YOUR_USERNAME/freqwave"
-Documentation  = "https://YOUR_USERNAME.github.io/freqwave"
-"Bug Tracker"  = "https://github.com/YOUR_USERNAME/freqwave/issues"
-Changelog      = "https://github.com/YOUR_USERNAME/freqwave/blob/main/CHANGELOG.md"
-
-[project.scripts]
-freqwave = "backend.app.main:app"
+Homepage      = "https://kareem-taha-05.github.io/Fourier-Studio"
+Repository    = "https://github.com/Kareem-Taha-05/Fourier-Studio"
+Documentation = "https://kareem-taha-05.github.io/Fourier-Studio"
+"Bug Tracker" = "https://github.com/Kareem-Taha-05/Fourier-Studio/issues"
+Changelog     = "https://github.com/Kareem-Taha-05/Fourier-Studio/blob/main/CHANGELOG.md"
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -66,8 +63,10 @@ addopts = "-v --tb=short"
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+
+[tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]
 ignore = ["E501"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101"]
