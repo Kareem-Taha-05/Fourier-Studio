@@ -9,14 +9,12 @@ theme:
   name: material
   custom_dir: docs/overrides
   palette:
-    # Dark mode (default — matches the app)
     - scheme: slate
       primary: custom
       accent: custom
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
-    # Light mode
     - scheme: default
       primary: custom
       accent: custom
@@ -50,15 +48,11 @@ nav:
     - Quickstart: quickstart.md
   - User Guide:
     - Overview: usage.md
-    - FT Mixer (Part A): usage.md#part-a--ft-mixer
-    - FT Emphasizer (Part B): usage.md#part-b--ft-emphasizer
   - Architecture: architecture.md
   - API Reference:
     - Images: api/images.md
     - Mixer: api/mixer.md
     - Emphasizer: api/emphasizer.md
-  - Contributing: ../CONTRIBUTING.md
-  - Changelog: ../CHANGELOG.md
 
 markdown_extensions:
   - admonition
@@ -78,14 +72,8 @@ markdown_extensions:
 
 plugins:
   - search
-  - mkdocstrings:
-      handlers:
-        python:
-          paths: [backend]
 
 extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/Kareem-Taha-05/Fourier-Studio
-  version:
-    provider: mike
