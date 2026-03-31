@@ -69,6 +69,8 @@ Every transform ships with a plain-English explanation of what is happening in b
 | Rotate | Spectrum rotates in lockstep |
 | Integrate | Low-pass smoothing in the frequency view |
 
+Full User Guide: [https://kareem-taha-05.github.io/Fourier-Studio/usage](https://kareem-taha-05.github.io/Fourier-Studio/usage)
+
 ---
 
 ## Getting started
@@ -92,6 +94,8 @@ npm run dev
 ```
 
 Open **http://localhost:5173**. The navbar shows a green **SYS ONLINE** indicator when the backend is connected.
+
+Full Getting Started Guide: [https://kareem-taha-05.github.io/Fourier-Studio/installation](https://kareem-taha-05.github.io/Fourier-Studio/installation)
 
 ---
 
