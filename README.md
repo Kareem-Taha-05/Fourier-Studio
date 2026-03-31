@@ -18,7 +18,11 @@
 
 ---
 
-[![Demo Video](docs/assets/video-thumbnail-placeholder.png)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
+<br/>
+
+<img src="assets/demo/demo.gif" width="840" alt="MEDVOL — loading a brain NIfTI and navigating linked slice views"/>
+
+<br/><br/>
 
 *▶ Watch the demo*
 
