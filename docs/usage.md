@@ -4,7 +4,7 @@
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│  📡  FREQWAVE     [ Mixer ]  [ Emphasizer ]   [◐ DARK]  ● SYS ONLINE │
+│  📡  Fourier Studio     [ Mixer ]  [ Emphasizer ]   [◐ DARK]  ● SYS ONLINE │
 ├──────────────────────────────────────────────────────────────────────┤
 │                   Main content area                                   │
 └──────────────────────────────────────────────────────────────────────┘
@@ -18,7 +18,7 @@
 
 ---
 
-## Part A — FT Mixer
+## FT Mixer
 
 ### Layout
 
@@ -92,7 +92,7 @@ The region rectangle appears as a coloured overlay on **all 4 FT panels simultan
 
 ---
 
-## Part B — FT Emphasizer
+## FT Emphasizer
 
 ### Layout
 

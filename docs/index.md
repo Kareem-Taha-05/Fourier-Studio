@@ -5,60 +5,52 @@ hide:
 
 <div class="hero" markdown>
 
-# FREQWAVE
+# Fourier Studio
 
-**Interactive 2D Fourier Transform Studio**
+**A real-time 2D Fourier Transform workbench**
 
-FREQWAVE makes the Fourier Transform tangible. Load images, mix their frequency components, and watch spatial and frequency domains respond to each other in real time.
+Load images. Mix frequency components. Watch both domains update instantly.
 
 [Get Started](installation.md){ .md-button .md-button--primary }
-[View on GitHub](https://github.com/YOUR_USERNAME/freqwave){ .md-button }
+[View on GitHub](https://github.com/Kareem-Taha-05/Fourier-Studio){ .md-button }
 
 </div>
 
 ---
 
-## What is FREQWAVE?
+## What is Fourier Studio?
 
-FREQWAVE is a full-stack interactive platform for exploring the **2D Discrete Fourier Transform (DFT)** on images. It bridges the gap between abstract signal processing theory and visual intuition — every operation updates in real time so you can immediately see both the spatial and frequency-domain consequences of your choices.
+Fourier Studio is a full-stack signal processing workbench that makes the 2D Discrete Fourier Transform interactive. Every operation — mixing frequency components, applying transforms, adjusting weights — updates in real time across synchronized spatial and frequency domain views.
 
-## Two Modes
+It is built for engineers and researchers who want to build real intuition for how images behave in the frequency domain, not just read about it.
 
-=== "FT Mixer"
+---
 
-    Load up to **4 images** simultaneously. Assign each image a role — contribute its **magnitude**, **phase**, **real part**, or **imaginary part** — weight each contribution, and reconstruct a brand new image via Inverse FFT.
+## Two tools in one
 
-    This is the classic FT experiment: *swap the phase of one image with the magnitude of another and see what emerges.*
+### FT Mixer
 
-=== "FT Emphasizer"
+Load up to four images. Assign each one a role — contribute its magnitude, phase, real part, or imaginary part — set individual weights, and reconstruct a new image via Inverse FFT. Every change re-runs the computation automatically. The previous result is cancelled the moment you start adjusting.
 
-    Apply **9 classical FT properties** to a single image and observe the duality in real time on 4 oscilloscope-style screens:
+This makes it straightforward to explore questions like: *what happens if you take the magnitude of one image and the phase of another?* The answer appears in under 200ms.
 
-    - **Shift** — see phase rotate in the FT while magnitude stays constant
-    - **Stretch** — watch the FT compress as you expand the image
-    - **Differentiate** — edges appear spatially; high frequencies bloom in the FT
-    - **Window** — apply Gaussian/Hamming/Hanning and watch spectral leakage disappear
-    - ...and 5 more
+### FT Emphasizer
 
-## Key Features
+Apply nine classical signal processing transforms to an image and observe the spatial ↔ frequency duality on four synchronized screens. Or flip the direction — apply the transform directly to the Fourier spectrum and watch the image reconstruct itself.
 
-| Feature | Description |
-|---|---|
-| **Real-time updates** | Every slider, toggle, or setting change triggers instant recomputation |
-| **Cancellation** | Starting a new operation cancels any in-flight computation |
-| **FT Duality** | Apply any transform in spatial *or* frequency domain — observe both consequences simultaneously |
-| **Educational cards** | Every action includes a plain-English explanation of spatial effect, frequency effect, and the underlying theorem |
-| **Dark / Light mode** | Vaporwave dark (deep void purple) or Neon Bloom light (warm ivory + candy accents) |
-| **Download** | Export mix results as PNG |
+Every transform includes an in-app explanation covering what happens in the spatial domain, what happens in the frequency domain, and the mathematical duality connecting them.
 
-## Quick Install
+---
+
+## Quick install
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/freqwave.git
-cd freqwave
+git clone https://github.com/Kareem-Taha-05/Fourier-Studio.git
+cd Fourier-Studio
 
 # Backend
-cd backend && python -m venv .venv && source .venv/bin/activate
+cd backend
+python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 uvicorn app.main:app --reload --port 8000
 
@@ -66,4 +58,30 @@ uvicorn app.main:app --reload --port 8000
 cd frontend-app && npm install && npm run dev
 ```
 
-Then open **http://localhost:5173** ✓
+Open **http://localhost:5173**
+
+---
+
+## Capabilities at a glance
+
+| Capability | Detail |
+|---|---|
+| Real-time computation | Sub-200ms update on every input change |
+| Thread cancellation | In-flight IFFT is cancelled when new parameters arrive |
+| FT domain switching | Apply any transform in spatial or frequency domain |
+| Frequency region masking | Restrict mixing to low-frequency or high-frequency bands |
+| 9 transforms | Shift, stretch, rotate, differentiate, integrate, window, mirror, make even/odd |
+| 4 FT components | Magnitude (log-scaled), phase, real, imaginary |
+| Inline documentation | Plain-English explanation for every transform and mixer concept |
+| Dark and light modes | Switchable without reload |
+| REST API | Clean endpoints with auto-generated Swagger docs at `/docs` |
+
+---
+
+## Built with
+
+FastAPI · NumPy · Pillow · React 19 · Vite 8 · Zustand · Pydantic v2
+
+---
+
+[Installation →](installation.md)
