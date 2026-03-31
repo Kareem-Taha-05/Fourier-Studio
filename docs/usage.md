@@ -24,9 +24,9 @@
 
 ```
 ┌──────────┬──────────┬──────────┬──────────┐
-│     IMG 01   │    IMG 02    │     IMG 03   │    IMG 04    │  ← Input channels
-│    Spatial   │    Spatial   │    Spatial   │    Spatial   │
-│    Freq      │    Freq      │    Freq      │    Freq      │
+│     IMG 01   │    IMG 02   │     IMG 03   │    IMG 04    │  ← Input channels
+│    Spatial   │    Spatial  │    Spatial   │    Spatial   │
+│    Freq      │    Freq     │    Freq      │    Freq      │
 └──────────┴──────────┴──────────┴──────────┘
 ┌────────────────────────────┐  ┌───────────┐
 │      OUTPUT 1     │     OUTPUT 2     │  │   Controls    │
