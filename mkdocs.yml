@@ -24,8 +24,8 @@ theme:
   font:
     text: Share Tech Mono
     code: Share Tech Mono
-  logo: assets/branding/logo.png
-  favicon: assets/branding/logo.png
+  logo: assets/branding/ft_logo.png
+  favicon: assets/branding/ft_logo.png
   features:
     - navigation.tabs
     - navigation.sections
