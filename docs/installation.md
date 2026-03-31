@@ -13,7 +13,7 @@
 
 ```bash
 git clone https://github.com/Kareem-Taha-05/Fourier-Studio
-cd freqwave
+cd Fourier-Studio
 ```
 
 ## Backend Setup
