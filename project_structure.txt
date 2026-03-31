@@ -17,7 +17,7 @@
 ./README.md
 ./assets
 ./assets/branding
-./assets/branding/logo.svg
+./assets/branding/ft_logo.png
 ./assets/demo
 ./backend
 ./backend/app
@@ -54,13 +54,6 @@
 ./docs/api/images.md
 ./docs/api/mixer.md
 ./docs/architecture.md
-./docs/assets
-./docs/assets/logo-placeholder.png
-./docs/assets/screenshot-emphasizer-dark.png
-./docs/assets/screenshot-infocard.png
-./docs/assets/screenshot-mixer-dark.png
-./docs/assets/screenshot-mixer-light.png
-./docs/assets/video-thumbnail-placeholder.png
 ./docs/index.md
 ./docs/installation.md
 ./docs/overrides
