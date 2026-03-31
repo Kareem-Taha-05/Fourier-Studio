@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/logo-placeholder.png" alt="Fourier Studio" width="380"/>
+<img src="assets/branding/ft_logo.png" alt="Fourier Studio" width="380"/>
 
 # Fourier Studio
 
