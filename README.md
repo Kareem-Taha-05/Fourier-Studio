@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="docs/assets/logo-placeholder.png" alt="Fourier Studio" width="380"/>
+<img src="docs/assets/branding/ft_logo.png" alt="Fourier Studio" width="380"/>
 
 # Fourier Studio
 
@@ -14,13 +14,8 @@
 [![Tests](https://img.shields.io/badge/Tests-58%20passing-00C851?style=flat-square)](#)
 [![License](https://img.shields.io/badge/License-MIT-BF00FF?style=flat-square)](LICENSE)
 
-[**Live Demo**](https://kareem-taha-05.github.io/Fourier-Studio) · [**Documentation**](https://kareem-taha-05.github.io/Fourier-Studio) · [**Report a Bug**](https://github.com/Kareem-Taha-05/Fourier-Studio/issues) · [**Request a Feature**](https://github.com/Kareem-Taha-05/Fourier-Studio/issues)
+[**Documentation**](https://kareem-taha-05.github.io/Fourier-Studio) · [**Report a Bug**](https://github.com/Kareem-Taha-05/Fourier-Studio/issues) · [**Request a Feature**](https://github.com/Kareem-Taha-05/Fourier-Studio/issues)
 
----
-
-[![Demo Video](docs/assets/video-thumbnail-placeholder.png)](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)
-
-*▶ Watch the demo*
 
 </div>
 
@@ -36,6 +31,12 @@ Load images, mix their frequency components, apply classical signal processing t
 
 ### FT Mixer
 
+<br/>
+
+<img src="docs/assets/demo/mixer_demo.gif" width="840" alt="Fourier Studio: mixer demo"/>
+
+<br/><br/>
+
 Load up to four images simultaneously. Assign each one a role — contribute its **magnitude**, **phase**, **real part**, or **imaginary part** — weight each contribution independently, and reconstruct a new image via Inverse FFT.
 
 Every slider move triggers a fresh computation. Change a weight, switch a role, or draw a frequency region mask and see the output update in under 200ms. The previous computation is cancelled automatically so you are never waiting for stale results.
@@ -47,6 +48,12 @@ Image 3  ──[MAG × 0.3]──┘
 ```
 
 ### FT Emphasizer
+
+<br/>
+
+<img src="docs/assets/demo/emphasizer_demo.gif" width="840" alt="Fourier Studio: emphasizer demo"/>
+
+<br/><br/>
 
 Pick a transform, apply it to an image, and watch what happens to its spectrum in real time across four synchronized display panels. Or flip the domain — apply the same transform directly to the Fourier spectrum and watch the image reconstruct itself differently.
 
@@ -61,6 +68,8 @@ Every transform ships with a plain-English explanation of what is happening in b
 | Make Even / Odd | FT becomes purely real or purely imaginary |
 | Rotate | Spectrum rotates in lockstep |
 | Integrate | Low-pass smoothing in the frequency view |
+
+Full User Guide: [https://kareem-taha-05.github.io/Fourier-Studio/usage](https://kareem-taha-05.github.io/Fourier-Studio/usage)
 
 ---
 
@@ -85,6 +94,8 @@ npm run dev
 ```
 
 Open **http://localhost:5173**. The navbar shows a green **SYS ONLINE** indicator when the backend is connected.
+
+Full Getting Started Guide: [https://kareem-taha-05.github.io/Fourier-Studio/installation](https://kareem-taha-05.github.io/Fourier-Studio/installation)
 
 ---
 

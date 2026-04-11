@@ -4,9 +4,9 @@
 
 ```
 ┌──────────────────────────────────────────────────────────────────────┐
-│  📡  Fourier Studio     [ Mixer ]  [ Emphasizer ]   [◐ DARK]  ● SYS ONLINE │
+│  📡  Fourier Studio     [ Mixer ]  [ Emphasizer ]                  [◐ DARK]  ● SYS ONLINE   │
 ├──────────────────────────────────────────────────────────────────────┤
-│                   Main content area                                   │
+│                                     Main content area                                          │
 └──────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -24,12 +24,12 @@
 
 ```
 ┌──────────┬──────────┬──────────┬──────────┐
-│  IMG 01  │  IMG 02  │  IMG 03  │  IMG 04  │  ← Input channels
-│ Spatial  │ Spatial  │ Spatial  │ Spatial  │
-│ Freq     │ Freq     │ Freq     │ Freq     │
+│     IMG 01   │    IMG 02    │     IMG 03  │    IMG 04    │  ← Input channels
+│    Spatial   │    Spatial   │    Spatial  │    Spatial   │
+│    Freq      │    Freq      │    Freq     │    Freq      │
 └──────────┴──────────┴──────────┴──────────┘
 ┌────────────────────────────┐  ┌───────────┐
-│   OUTPUT 1  │   OUTPUT 2  │  │ Controls  │
+│      OUTPUT 1     │     OUTPUT 2     │  │   Controls    │
 └────────────────────────────┘  └───────────┘
 ```
 
@@ -98,11 +98,11 @@ The region rectangle appears as a coloured overlay on **all 4 FT panels simultan
 
 ```
 ┌─────────────┐  ┌───────────────┬───────────────┐
-│  Controls   │  │  Original     │  Original     │
-│  (sidebar)  │  │  Spatial      │  FT           │
-│             │  ├───────────────┼───────────────┤
-│             │  │  Transformed  │  FT of        │
-│             │  │  Spatial      │  Transformed  │
+│  Controls        │  │       Original      │  Original     │
+│  (sidebar)       │  │       Spatial       │  FT           │
+│                  │  ├───────────────┼───────────────┤
+│                  │  │       Transformed   │  FT of        │
+│                  │  │       Spatial       │  Transformed  │
 └─────────────┘  └───────────────┴───────────────┘
 ```
 

@@ -12,8 +12,8 @@
 ## Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/freqwave.git
-cd freqwave
+git clone https://github.com/Kareem-Taha-05/Fourier-Studio
+cd Fourier-Studio
 ```
 
 ## Backend Setup
