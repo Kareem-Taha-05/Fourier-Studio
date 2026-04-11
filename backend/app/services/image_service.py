@@ -69,13 +69,20 @@ class ImageProcessor:
         self._compute_ft()
         ft = self._ft_shifted
         if component == "magnitude":
+            # Log scale: compresses the enormous DC spike so the full spectrum is visible
             return np.log1p(np.abs(ft))
         elif component == "phase":
+            # Already bounded in [-π, π] — no compression needed
             return np.angle(ft)
         elif component == "real":
-            return ft.real
+            # Signed log compression: preserves sign (important for antisymmetry),
+            # compresses dynamic range so the DC spike doesn't dominate the display.
+            # sign(x) * log1p(|x|) maps 0→0, large positive→large, large negative→large negative.
+            return np.sign(ft.real) * np.log1p(np.abs(ft.real))
         elif component == "imaginary":
-            return ft.imag
+            # Same signed log compression for imaginary part.
+            # Without this, the large DC real component makes all imaginary values invisible.
+            return np.sign(ft.imag) * np.log1p(np.abs(ft.imag))
         raise ValueError(f"Unknown component: {component}")
 
     def get_spatial_image(self) -> np.ndarray:

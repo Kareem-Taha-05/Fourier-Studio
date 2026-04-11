@@ -105,21 +105,54 @@ class EmphasizerProcessor(ImageProcessor):
         return np.ones(n)
 
     def apply_fourier_repeat(self, times: int) -> "EmphasizerProcessor":
-        """Apply FFT times times with log-magnitude normalisation between steps."""
+        """
+        Apply FFT exactly `times` times while preserving the full complex signal
+        so that the F^4 = f identity holds:
+            F^1(f) = F(u,v)          — the spectrum
+            F^2(f) = f(-x,-y)        — image flipped 180°
+            F^3(f) = F(-u,-v)        — spectrum flipped 180°
+            F^4(f) = f(x,y)          — back to original (up to float precision)
+
+        After all iterations the complex result is converted to a real-valued
+        spatial array for display:
+          - times % 4 == 0  →  real part  (should equal original, imag ≈ 0)
+          - times % 4 == 2  →  real part  (flipped image, imag ≈ 0)
+          - times % 4 == 1  →  log-magnitude of spectrum (for display)
+          - times % 4 == 3  →  log-magnitude of flipped spectrum (for display)
+
+        No log-compression or normalization happens BETWEEN iterations —
+        the full complex array is carried through every step untouched.
+        """
         if times == 0:
             return EmphasizerProcessor(self.image_id + "_ft0", self._spatial.copy())
 
-        result = self._spatial.astype(np.float64)
-        for _ in range(times):
-            ft = np.fft.fftshift(np.fft.fft2(result))
-            log_mag = np.log1p(np.abs(ft))
-            lo, hi = log_mag.min(), log_mag.max()
-            if hi - lo > 1e-10:
-                result = (log_mag - lo) / (hi - lo) * 255.0
-            else:
-                result = np.zeros_like(log_mag)
+        # Start with the real-valued spatial image as a complex array.
+        # Keeping it complex from the start means every iteration is identical —
+        # no special-casing for the first step.
+        signal = self._spatial.astype(np.complex128)
 
-        return EmphasizerProcessor(self.image_id + f"_ft{times}", result)
+        for _ in range(times):
+            # fft2 expects the unshifted array (DC at corner).
+            # ifftshift undoes any previous fftshift so fft2 sees the right layout.
+            signal = np.fft.fftshift(np.fft.fft2(np.fft.ifftshift(signal)))
+
+        # ── Convert complex result to a real-valued array for display ──────────
+        iteration = times % 4
+
+        if iteration == 0:
+            # F^4k = original image  →  should be real, take real part
+            display = signal.real
+
+        elif iteration == 2:
+            # F^2  = f(-x,-y)        →  should be real, take real part
+            display = signal.real
+
+        else:
+            # F^1 or F^3 = a spectrum  →  use log-magnitude so it is visible
+            # (raw magnitude has too large a dynamic range for direct display)
+            display = np.log1p(np.abs(signal))
+
+        return EmphasizerProcessor(self.image_id + f"_ft{times}", display)
 
     def get_ft_complex_array(self) -> np.ndarray:
         self._compute_ft()
